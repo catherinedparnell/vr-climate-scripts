@@ -34,17 +34,9 @@ public class WeatherController : MonoBehaviour
     IEnumerator MakeWeather()
     {
         Debug.Log("make weather data: " + data);
-        //MakeRain(data.Precipitation);
+        MakeRain(data.Precipitation);
         Debug.Log("data.Precipitation: " + data.precipitation);
         yield return new WaitForSeconds(10);
-
-        /*for (int i = 0; i < data.Count; i++)
-        {
-            ClimateData hourlyData = data[i];
-            Debug.Log("HOUR # " + hourlyData.ToString());
-            MakeRain(hourlyData.Rain);
-            yield return new WaitForSeconds(10);
-        }*/
     }
 
     void MakeRain(float rainAmount)
@@ -52,9 +44,9 @@ public class WeatherController : MonoBehaviour
         if (rainAmount > 0)
         {
             Rain.SetActive(true);
-            var emission = rainPart.emission;
-            eRate = rainAmount * 10;
-            emission.rateOverTime = eRate;
+            var emission = rainPart.emission.rateOverTime;
+            eRate = rainAmount * 100;
+            emission = eRate;
         }
         else
         {

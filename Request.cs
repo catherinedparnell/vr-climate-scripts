@@ -21,7 +21,7 @@ public class Request : MonoBehaviour
 
     public void StartSimulation()
     {
-        GenerateRequest(2090, 2); // testing with best scenario
+        GenerateRequest(2020, 1); // testing with best scenario
     }
 
     public void GenerateRequest (int year, int scenario)
