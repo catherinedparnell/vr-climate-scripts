@@ -7,15 +7,8 @@ using TMPro;
 
 public class Request : MonoBehaviour
 {
-    public const string serverURL = "https://vr-climate-api.herokuapp.com";
-    private string yearClimate;
-    private string scenarioClimate;
     private string formattedURL;
-
     public bool retrieved = false;
-
-    public GameObject WeatherController;
-
     public ClimateData data;
 
 
@@ -26,9 +19,7 @@ public class Request : MonoBehaviour
 
     public void GenerateRequest (int year, int scenario)
     {
-        yearClimate = year.ToString();
-        scenarioClimate = scenario.ToString();
-        formattedURL = serverURL + "/decade?year=" + yearClimate + "&scenario=" + scenarioClimate;
+        formattedURL = ServerConfig.DECADE_URL + ServerConfig.QUERY_YEAR + year.ToString() + "&" +ServerConfig.QUERY_SCENARIO + scenario.ToString();
         StartCoroutine(ProcessRequest(formattedURL));
     }
 
