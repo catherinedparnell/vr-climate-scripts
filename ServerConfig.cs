@@ -1,23 +1,23 @@
 public class ServerConfig
 {
-    private string SERVER_URL = "https://vr-climate-api.herokuapp.com";
-    private string SERVER_ENDPOINT = "/decade?";
-    private string YEAR = "year";
-    private string SCENARIO = "scenario";
+    private static string SERVER_URL = "https://vr-climate-api.herokuapp.com";
+    private static string SERVER_ENDPOINT = "/decade?";
+    private static string YEAR = "year";
+    private static string SCENARIO = "scenario";
 
-    public string URL
+    public static string URL
     { get { return SERVER_URL; } }
 
-    public string DECADE_URL
+    public static string DECADE_URL
     { get { return SERVER_URL+SERVER_ENDPOINT; } }
 
-    public string QUERY_YEAR
+    public static string QUERY_YEAR
     { get { return make_query(YEAR); } }
 
-    public string QUERY_SCENARIO
+    public static string QUERY_SCENARIO
     { get { return make_query(SCENARIO); } }
 
-    private make_query(string param) {
+    private static string make_query(string param) {
         return param+"=";
     }
 }
