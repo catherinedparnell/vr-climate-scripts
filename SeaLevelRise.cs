@@ -9,23 +9,21 @@ using TMPro;
 
 public class SeaLevelRise : MonoBehaviour
 {
-    private bool retrieved = false;
+    // data variables
     private string formattedURL;
     public int year;
     public int scenario;
-    // public GameObject yearDropdownObj;
-    // public GameObject scenarioDropdownObj;
     public GameObject water;
     public ClimateData data;
-    private float startTime;
-    public float riseSpeed;
+
+    // lerp variables
+    public float riseSpeed=.5f;
     private Vector3 startPos;
     private Vector3 endPos;
-    private float fraction = 0;
+    private float lerpFraction = 0;
     private bool updatingWaterLevel = false;
-    public float speed = .5f;
- 
     public int RISE_FACTOR = 5; 
+
     // // Start is called before the first frame update
     void Start()
     {
@@ -46,10 +44,10 @@ public class SeaLevelRise : MonoBehaviour
     private void LerpSea()
     {
         // move sea plane
-        if (fraction < 0.99)
+        if (lerpFraction < 0.99)
         {
-            fraction += Time.deltaTime * speed;
-            water.transform.position = Vector3.Lerp(startPos, endPos, fraction);
+            lerpFraction += Time.deltaTime * riseSpeed;
+            water.transform.position = Vector3.Lerp(startPos, endPos, lerpFraction);
         }
         // sea plane is done moving
         else
@@ -57,8 +55,8 @@ public class SeaLevelRise : MonoBehaviour
             // no longer updating the water level
             updatingWaterLevel = false;
 
-            // reset fraction for next sea level update
-            fraction = 0;
+            // reset lerpFraction for next sea level update
+            lerpFraction = 0;
         }
     }
 
@@ -94,8 +92,6 @@ public class SeaLevelRise : MonoBehaviour
 
             // creates new ClimateData object for data collected from API
             data = new ClimateData(getAttribute("precip", response), getAttribute("sea_level", response), getAttribute("temperature", response));
-
-            retrieved = true;
         }
         // sets the start and end position for lerp before it starts
         startPos = water.transform.position;
@@ -108,7 +104,6 @@ public class SeaLevelRise : MonoBehaviour
     // starts the request with a given year and scenario
     public void StartSimulation(int year, int scenario)
     {
-        startTime = Time.time;
         GenerateRequest(year, scenario);
     }
 
