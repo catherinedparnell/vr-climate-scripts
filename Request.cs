@@ -9,6 +9,7 @@ public class Request : MonoBehaviour
 {
     private string formattedURL;
     public bool retrieved = false;
+    public bool seaRetrieved = false;
     public ClimateData data;
 
 
@@ -41,6 +42,7 @@ public class Request : MonoBehaviour
             JSONNode response = JSON.Parse(request.downloadHandler.text);
             data = new ClimateData(getAttribute("precip", response), getAttribute("sea_level", response), getAttribute("temperature", response));
             retrieved = true;
+            seaRetrieved = true;
         }
     }
 

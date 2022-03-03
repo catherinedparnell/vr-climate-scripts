@@ -9,12 +9,10 @@ using TMPro;
 
 public class SeaLevelRise : MonoBehaviour
 {
-    // data variables
-    private string formattedURL;
-    public int year;
-    public int scenario;
     public GameObject water;
     public ClimateData data;
+
+    public Request Request;
 
     // lerp variables
     public float riseSpeed=.5f;
@@ -24,15 +22,22 @@ public class SeaLevelRise : MonoBehaviour
     private bool updatingWaterLevel = false;
     public int RISE_FACTOR = 5; 
 
-    // // Start is called before the first frame update
-    void Start()
-    {
-        StartSimulation(year, scenario);
-    }
-
-    // Update is called once per frame
     void Update()
     {
+        Debug.Log(Request.seaRetrieved);
+        if (Request.seaRetrieved)
+        {
+            data = Request.data;
+            Debug.Log("I have gotten ze data:"+data);
+            // sets the start and end position for lerp before it starts
+            startPos = water.transform.position;
+            endPos = new Vector3(water.transform.position.x, water.transform.position.y+(RISE_FACTOR*data.SeaLevel), water.transform.position.z);
+            
+            // setting updatingWaterLevel to true starts the lerp aniamtion
+            updatingWaterLevel = true;
+            Request.seaRetrieved = false;
+        }
+
         // if water level is being updated
         if(updatingWaterLevel)
         {
@@ -59,52 +64,4 @@ public class SeaLevelRise : MonoBehaviour
             lerpFraction = 0;
         }
     }
-
-    // gets attribute from JSON object
-    private float getAttribute(string attr, JSONNode response) {
-       return (float) response[attr];
-    }
-
-    // generates the request for API with formatted URL 
-    public void GenerateRequest(int year, int scenario)
-    {
-        formattedURL = "https://vr-climate-api.herokuapp.com/decade?year="+year+"&scenario="+scenario;
-        StartCoroutine(ProcessRequest(formattedURL));
-    }
-    // Processes the request from the API
-    private IEnumerator ProcessRequest(string uri)
-    {
-        using (UnityWebRequest request = UnityWebRequest.Get(uri))
-        {
-            yield return request.SendWebRequest();
-
-            if (request.isNetworkError)
-            {
-                Debug.Log(request.error);
-            }
-            else
-            {
-                Debug.Log(request.downloadHandler.text);
-            }
-
-            JSONNode response = JSON.Parse(request.downloadHandler.text);
-            print(response);
-
-            // creates new ClimateData object for data collected from API
-            data = new ClimateData(getAttribute("precip", response), getAttribute("sea_level", response), getAttribute("temperature", response));
-        }
-        // sets the start and end position for lerp before it starts
-        startPos = water.transform.position;
-        endPos = new Vector3(water.transform.position.x, water.transform.position.y+(RISE_FACTOR*data.SeaLevel), water.transform.position.z);
-        
-        // setting updatingWaterLevel to true starts the lerp aniamtion
-        updatingWaterLevel = true;
-    }
-    
-    // starts the request with a given year and scenario
-    public void StartSimulation(int year, int scenario)
-    {
-        GenerateRequest(year, scenario);
-    }
-
 }
