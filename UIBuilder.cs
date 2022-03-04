@@ -60,8 +60,12 @@ public class UIBuilder : MonoBehaviour
     {
         if(OVRInput.GetDown(OVRInput.Button.Two) || OVRInput.GetDown(OVRInput.Button.Start))
         {
-            if (inMenu) DebugUIBuilder.instance.Hide();
-            else DebugUIBuilder.instance.Show();
+            if (inMenu){
+                DebugUIBuilder.instance.Hide();
+            } 
+            else {
+                DebugUIBuilder.instance.Show();
+            }
             inMenu = !inMenu;
         }
     }

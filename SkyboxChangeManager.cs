@@ -73,4 +73,8 @@ public class SkyboxChangeManager : MonoBehaviour
             lerp = 0;
         }
     }
+
+    private void OnApplicationQuit() {
+        RenderSettings.skybox.SetColor("_Tint", colorClear);
+    }
 }
