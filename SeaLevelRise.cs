@@ -28,7 +28,7 @@ public class SeaLevelRise : MonoBehaviour
         if (Request.seaRetrieved)
         {
             data = Request.data;
-            Debug.Log("I have gotten ze data:"+data);
+            
             // sets the start and end position for lerp before it starts
             startPos = water.transform.position;
             endPos = new Vector3(water.transform.position.x, water.transform.position.y+(RISE_FACTOR*data.SeaLevel), water.transform.position.z);

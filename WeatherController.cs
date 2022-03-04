@@ -17,7 +17,6 @@ public class WeatherController : MonoBehaviour
     public void Start()
     {
         Request = gameObject.GetComponentInParent<Request>();
-        Request.StartSimulation();
         rainPart = GetComponent<ParticleSystem>(); // rain particle system 
     }
 

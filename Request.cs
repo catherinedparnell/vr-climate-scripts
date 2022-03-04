@@ -13,9 +13,9 @@ public class Request : MonoBehaviour
     public ClimateData data;
 
 
-    public void StartSimulation()
+    public void StartSimulation(int year, int scenario)
     {
-        GenerateRequest(2020, 1); // testing with best scenario
+        GenerateRequest(year - 10, scenario);
     }
 
     public void GenerateRequest (int year, int scenario)
