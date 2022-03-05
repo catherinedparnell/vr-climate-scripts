@@ -13,6 +13,8 @@ public class WeatherController : MonoBehaviour
     private float rainAmount; // data retrived from the API
     public float eRate; // emission rate of the particles
 
+    public int rainDelay = 2; // how long to wait before start raining
+    public bool makingWeather = false;
 
     public void Start()
     {
@@ -30,15 +32,17 @@ public class WeatherController : MonoBehaviour
         }
     }
 
-    IEnumerator MakeWeather()
+    public IEnumerator MakeWeather()
     {
-        Debug.Log("make weather data: " + data);
+        makingWeather = true;
+        yield return new WaitForSeconds(rainDelay);
         MakeRain(data.Precipitation);
-        Debug.Log("data.Precipitation: " + data.precipitation);
-        yield return new WaitForSeconds(10);
+        yield return new WaitForSeconds(rainAmount);
+        ResetRain();
+        makingWeather = false;
     }
 
-    void MakeRain(float rainAmount)
+    public void MakeRain(float rainAmount)
     {
         if (rainAmount > 0)
         {
@@ -46,47 +50,17 @@ public class WeatherController : MonoBehaviour
             var emission = rainPart.emission.rateOverTime;
             eRate = rainAmount * 100;
             emission = eRate;
+
         }
         else
         {
-            Rain.SetActive(false);
-            var emission = rainPart.emission;
-            emission.rateOverTime = 0;
+            ResetRain();
         }
+    }
+
+    public void ResetRain() {
+        Rain.SetActive(false);
+        var emission = rainPart.emission;
+        emission.rateOverTime = 0;
     }
 }
-
-
-
-
-/*
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        rainPart = GetComponent<ParticleSystem>();
-        StartCoroutine(rainVol());
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (isRaining)
-        {
-            var emission = rainPart.emission;
-            rainAmount = MainController.precipAmount;
-            eRate = rainAmount * 10;
-            emission.rateOverTime = eRate;
-        }
-    }
-
-    IEnumerator rainVol()
-    {
-        yield return new WaitForSeconds(10);
-        eRate = 500;
-        yield return new WaitForSeconds(6);
-        eRate = 200;
-        yield return new WaitForSeconds(6);
-        eRate = 300;
-
-    }*/

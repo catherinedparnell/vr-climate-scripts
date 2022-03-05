@@ -10,6 +10,8 @@ public class UIBuilder : MonoBehaviour
     bool inMenu;
     private Text sliderText;
     public Request Request;
+    public WeatherController WeatherController;
+    public GameObject Rain;
 
     private Transform sliderPrefab;
 
@@ -73,6 +75,12 @@ public class UIBuilder : MonoBehaviour
     void OnButtonPress()
     {
         int sliderValue = (int) sliderPrefab.GetComponentInChildren<Slider>().value;
+        if (WeatherController.makingWeather) {
+            StopCoroutine(WeatherController.MakeWeather());
+        }
+        if (Rain.activeSelf) {
+            Rain.SetActive(false);
+        }
         Request.StartSimulation(sliderValue, radioValue); 
         Debug.Log("Button pressed");
     }
