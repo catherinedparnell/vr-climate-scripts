@@ -6,7 +6,7 @@ public class SkyboxChangeManager : MonoBehaviour
 {
     private Color colorClear = Color.grey;
     private Color32 colorRain = new Color32(58, 58, 58, 255);
-    public float duration = 1.0f;
+    [SerializeField] [Range(0f, 5f)] float duration;
     private float lerp = 0f;
     private float start;
     public bool raining = false;
@@ -50,11 +50,12 @@ public class SkyboxChangeManager : MonoBehaviour
     }
     public void RainSkyboxLerp()
     {
-        if (lerp < 0.9)
+        if (lerp < 0.99)
         {
             print("lerping: "+lerp);
-            lerp = Mathf.PingPong(Time.time, duration) / duration;
+            lerp += Time.deltaTime/duration;
             RenderSettings.skybox.SetColor("_Tint", Color.Lerp(colorClear, colorRain, lerp));
+            RenderSettings.ambientLight = Color.Lerp(colorClear, colorRain, lerp);
         }
         else{
             done = true;
@@ -63,10 +64,11 @@ public class SkyboxChangeManager : MonoBehaviour
     }
     public void ClearSkyboxLerp()
     {
-        if (lerp < 0.9)
+        if (lerp < 0.99)
         {
-            lerp = Mathf.PingPong(Time.time, duration) / duration;
+            lerp += Time.deltaTime/duration;
             RenderSettings.skybox.SetColor("_Tint", Color.Lerp(colorRain, colorClear, lerp));
+            RenderSettings.ambientLight = Color.Lerp(colorRain, colorClear, lerp);
         }
         else{
             done = true;
