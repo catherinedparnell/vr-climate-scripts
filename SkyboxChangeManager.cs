@@ -53,6 +53,7 @@ public class SkyboxChangeManager : MonoBehaviour
         if (lerp < 0.99)
         {
             print("lerping: "+lerp);
+            // lerp = Mathf.PingPong(Time.time, duration) / duration;
             lerp += Time.deltaTime/duration;
             RenderSettings.skybox.SetColor("_Tint", Color.Lerp(colorClear, colorRain, lerp));
             RenderSettings.ambientLight = Color.Lerp(colorClear, colorRain, lerp);
@@ -66,6 +67,7 @@ public class SkyboxChangeManager : MonoBehaviour
     {
         if (lerp < 0.99)
         {
+            // lerp = Mathf.PingPong(Time.time, duration) / duration;
             lerp += Time.deltaTime/duration;
             RenderSettings.skybox.SetColor("_Tint", Color.Lerp(colorRain, colorClear, lerp));
             RenderSettings.ambientLight = Color.Lerp(colorRain, colorClear, lerp);
@@ -74,9 +76,5 @@ public class SkyboxChangeManager : MonoBehaviour
             done = true;
             lerp = 0;
         }
-    }
-
-    private void OnApplicationQuit() {
-        RenderSettings.skybox.SetColor("_Tint", colorClear);
     }
 }

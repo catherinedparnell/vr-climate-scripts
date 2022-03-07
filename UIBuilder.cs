@@ -17,10 +17,13 @@ public class UIBuilder : MonoBehaviour
 
     private int radioValue;
 
+    public GameObject leftContent;
+    public GameObject rightContent;
+
 	void Start ()
     {
         
-        DebugUIBuilder.instance.AddLabel("Modeling Parameters");
+        DebugUIBuilder.instance.AddLabel("Future Timeline");
         sliderPrefab = DebugUIBuilder.instance.AddSlider("Time", 2030, 2100, SliderPressed, true);
         var textElementsInSlider = sliderPrefab.GetComponentsInChildren<Text>();
         Assert.AreEqual(textElementsInSlider.Length, 2, "Slider prefab format requires 2 text components (label + value)");
@@ -28,10 +31,20 @@ public class UIBuilder : MonoBehaviour
         Assert.IsNotNull(sliderText, "No text component on slider prefab");
         sliderText.text = sliderPrefab.GetComponentInChildren<Slider>().value.ToString();
         DebugUIBuilder.instance.AddDivider();
-        DebugUIBuilder.instance.AddRadio("Scenario A", "group", delegate(Toggle t) { RadioPressed("Scenario A", "group", t); }) ;
-        DebugUIBuilder.instance.AddRadio("Scenario B", "group", delegate(Toggle t) { RadioPressed("Scenario B", "group", t); }) ;
-        DebugUIBuilder.instance.AddRadio("Scenario C", "group", delegate(Toggle t) { RadioPressed("Scenario C", "group", t); }) ;
+        DebugUIBuilder.instance.AddLabel("SSP Climate Scenarios");
+        DebugUIBuilder.instance.AddRadio("Low Emissions", "group", delegate(Toggle t) { RadioPressed("Scenario A", "group", t); }) ;
+        DebugUIBuilder.instance.AddRadio("Medium Emissions", "group", delegate(Toggle t) { RadioPressed("Scenario B", "group", t); }) ;
+        DebugUIBuilder.instance.AddRadio("High Emissions", "group", delegate(Toggle t) { RadioPressed("Scenario C", "group", t); }) ;
         DebugUIBuilder.instance.AddButton("Visualize", OnButtonPress);
+        DebugUIBuilder.instance.AddLabel("Welcome!", 1);
+        DebugUIBuilder.instance.AddDivider(1);
+        DebugUIBuilder.instance.AddTextField("Select a year and scenario to model climate predictions.", 1);
+        DebugUIBuilder.instance.AddTextField("Press 'B' on the right controller to open and close the menu.", 1);
+        DebugUIBuilder.instance.AddLabel("Acknowledgments", 2);
+        DebugUIBuilder.instance.AddDivider(2);
+        DebugUIBuilder.instance.AddTextField("All data was sourced from IPCC projections from the World Bank.", 2);
+        // DebugUIBuilder.instance.AddImage(2);
+        DebugUIBuilder.instance.AddTextField("Learn more at WorldBank.org", 2);
         DebugUIBuilder.instance.Show();
         inMenu = true;
 	}
@@ -49,12 +62,10 @@ public class UIBuilder : MonoBehaviour
                 radioValue = 2;
             }
         }
-        Debug.Log("Radio value changed: "+radioLabel+", from group "+group+". New value: "+t.isOn);
     }
 
     public void SliderPressed(float f)
     {
-        Debug.Log("Slider: " + f);
         sliderText.text = f.ToString();
     }
 
@@ -64,9 +75,13 @@ public class UIBuilder : MonoBehaviour
         {
             if (inMenu){
                 DebugUIBuilder.instance.Hide();
+                //leftContent.SetActive(false);
+                //Content.SetActive(false);
             } 
             else {
                 DebugUIBuilder.instance.Show();
+                leftContent.SetActive(false);
+                rightContent.SetActive(false);
             }
             inMenu = !inMenu;
         }
@@ -82,6 +97,6 @@ public class UIBuilder : MonoBehaviour
             Rain.SetActive(false);
         }
         Request.StartSimulation(sliderValue, radioValue); 
-        Debug.Log("Button pressed");
+        Debug.Log("Button pressed with "+sliderValue+" and "+radioValue);
     }
 }

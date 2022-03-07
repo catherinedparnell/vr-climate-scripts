@@ -11,10 +11,14 @@ public class Request : MonoBehaviour
     public bool retrieved = false;
     public bool seaRetrieved = false;
     public ClimateData data;
+    public int chosenYear;
+    public int chosenScenario;
 
 
     public void StartSimulation(int year, int scenario)
     {
+        chosenYear = year;
+        chosenScenario = scenario;
         GenerateRequest(year - 10, scenario);
     }
 

@@ -1,3 +1,5 @@
+
+   
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -26,7 +28,6 @@ public class SeaLevelRise : MonoBehaviour
 
     void Update()
     {
-        Debug.Log(Request.seaRetrieved);
         if (Request.seaRetrieved)
         {
             data = Request.data;
