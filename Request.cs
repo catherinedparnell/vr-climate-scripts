@@ -14,6 +14,10 @@ public class Request : MonoBehaviour
     public int chosenYear;
     public int chosenScenario;
 
+    void Start() {
+        StartSimulation(2100, 2);
+    }
+
 
     public void StartSimulation(int year, int scenario)
     {

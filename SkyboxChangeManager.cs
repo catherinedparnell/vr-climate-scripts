@@ -11,7 +11,7 @@ public class SkyboxChangeManager : MonoBehaviour
     private float start;
     public bool raining = false;
     private bool done = false;
-    public GameObject rain;
+    public ParticleSystem rain;
 
     // Start is called before the first frame update
     void Start()
@@ -33,14 +33,14 @@ public class SkyboxChangeManager : MonoBehaviour
         }
     }
     public void RainCheck(){
-        if(rain.activeSelf & !raining)
+        if(rain.isPlaying & !raining)
         {
             raining = true;
             done = false;
             start = Time.time;
             print("starting lerp to raining skybox");
         }
-        else if (!rain.activeSelf & raining)
+        else if (!rain.isPlaying & raining)
         {
             raining = false;
             done = false;
@@ -76,5 +76,10 @@ public class SkyboxChangeManager : MonoBehaviour
             done = true;
             lerp = 0;
         }
+    }
+
+    private void OnApplicationQuit() {
+        RenderSettings.skybox.SetColor("_Tint", colorClear);
+        RenderSettings.ambientLight = colorClear;
     }
 }

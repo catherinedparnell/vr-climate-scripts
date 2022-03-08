@@ -19,16 +19,14 @@ public class CloudFadeInOut : MonoBehaviour
         cloudColor = lowClouds.GetComponent<Renderer>().material.GetColor("_CloudColor");
         cloudColorAlpha = cloudColor.a;
     }
-
-    // Update is called once per frame
     void Update()
     {
-        if(OVRInput.Get(OVRInput.Button.One)){
-            SetFadeIn();
-        }
-        if(OVRInput.Get(OVRInput.Button.Two)){
-            SetFadeOut();
-        }
+        // if(OVRInput.Get(OVRInput.Button.One)){
+        //     SetFadeIn();
+        // }
+        // if(OVRInput.Get(OVRInput.Button.Two)){
+        //     SetFadeOut();
+        // }
         if(fadeCloudsIn & !fadeCloudsOut){
             FadeIn();
         }

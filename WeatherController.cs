@@ -26,10 +26,13 @@ public class WeatherController : MonoBehaviour
     public float averageRainProb = 0.35f;
     private float rainProb;
 
+    private CloudFadeInOut cloudFade;
+
     public void Start()
     {
         Request = gameObject.GetComponentInParent<Request>();
         rainPart = Rain.GetComponent<ParticleSystem>();
+        cloudFade = Clouds.GetComponent<CloudFadeInOut>();
     }
 
     void Update()
@@ -65,8 +68,8 @@ public class WeatherController : MonoBehaviour
         if (rainAmount > 0 && ifRainPercent < rainProb)
         {
             Debug.Log("it will rain");
-            Rain.SetActive(true);
-            Clouds.SetActive(true);
+            rainPart.Play();
+            cloudFade.SetFadeOut();
             var emission = rainPart.emission.rateOverTime;
             eRate = rainAmount * 100;
             emission = eRate;
@@ -93,8 +96,8 @@ public class WeatherController : MonoBehaviour
             Downpour.StopDownpourSound();
         }
 
-        Rain.SetActive(false);
-        Clouds.SetActive(false);
+        rainPart.Pause();
+        cloudFade.SetFadeOut();
         var emission = rainPart.emission;
         emission.rateOverTime = 0;
 

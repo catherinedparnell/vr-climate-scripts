@@ -59,6 +59,7 @@ public class SeaLevelRise : MonoBehaviour
     // lerp animation for sea level
     private void LerpSea()
     {
+        Debug.Log("updating sea level");
         // move sea plane
         if (lerpFraction < 0.99)
         {

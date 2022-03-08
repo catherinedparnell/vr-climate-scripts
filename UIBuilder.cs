@@ -75,8 +75,6 @@ public class UIBuilder : MonoBehaviour
         {
             if (inMenu){
                 DebugUIBuilder.instance.Hide();
-                //leftContent.SetActive(false);
-                //Content.SetActive(false);
             } 
             else {
                 DebugUIBuilder.instance.Show();
