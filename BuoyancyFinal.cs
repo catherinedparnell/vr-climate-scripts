@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class Buoyancy1 : MonoBehaviour {
+public class BuoyancyFinal : MonoBehaviour {
     public GameObject sea;
     private float CurrentUpwardForce; // 9.81 is the opposite of the default gravity, which is 9.81. If we want the boat not to behave like a submarine the upward force has to be higher than the gravity in order to push the boat to the surface
     private bool goingUp;
