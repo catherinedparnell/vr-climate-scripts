@@ -26,6 +26,8 @@ public class WeatherController : MonoBehaviour
     public float averageRainProb = 0.35f;
     private float rainProb;
 
+    public bool isRaining = false;
+
     private CloudFadeInOut cloudFade;
 
     public void Start()
@@ -39,6 +41,7 @@ public class WeatherController : MonoBehaviour
     {
         if (Request.retrieved)
         {
+            Debug.Log("got data in weather controller");
             data = Request.data;
             StartCoroutine(MakeWeather());
             Request.retrieved = false;
@@ -52,15 +55,19 @@ public class WeatherController : MonoBehaviour
 
     public IEnumerator MakeWeather()
     {
+        Debug.Log("making weather");
         makingWeather = true;
         yield return new WaitForSeconds(rainDelay);
-        MakeRain(data.Precipitation);
+        GameObject rain = MakeRain(data.Precipitation);
         yield return new WaitForSeconds(data.Precipitation + rainDelay);
-        ResetRain(data.Precipitation);
+        if (rain != null) {
+            Debug.Log("destroying rain");
+            ResetRain(data.Precipitation);
+        }
         makingWeather = false;
     }
 
-    public void MakeRain(float rainAmount)
+    public GameObject MakeRain(float rainAmount)
     {
         float ifRain = Random.Range(0, 100);
         float ifRainPercent = ifRain / 100;
@@ -68,39 +75,37 @@ public class WeatherController : MonoBehaviour
         if (rainAmount > 0 && ifRainPercent < rainProb)
         {
             Debug.Log("it will rain");
-            rainPart.Play();
-            cloudFade.SetFadeOut();
+            isRaining = true;
+            Rain.SetActive(true);
+            cloudFade.SetFadeIn();
             var emission = rainPart.emission.rateOverTime;
             eRate = rainAmount * 100;
             emission = eRate;
 
-            if (rainAmount > rainCutoff) {
+            if (rainAmount > rainCutoff && Rain.activeSelf) {
                 Thunderstorm.StartThunderstormSound();
             } 
-            else {
+            else if (Rain.activeSelf) {
                 Downpour.StartDownpourSound();
             }
             AmbientCoast.PauseCoastSound();
+            return Rain;
         }
-        else
-        {
-            ResetRain(rainAmount);
-        }
+        return null;
     }
 
     public void ResetRain(float rainAmount) {
-        if (rainAmount > rainCutoff) {
-            Thunderstorm.StopThunderstormSound();
-        } 
-        else if (0 < rainAmount) {
-            Downpour.StopDownpourSound();
-        }
+            if (rainAmount > rainCutoff) {
+                Thunderstorm.StopThunderstormSound();
+            } 
+            else if (0 < rainAmount) {
+                Downpour.StopDownpourSound();
+            }
+            Debug.Log("stopped raining");
+            Rain.SetActive(false);
+            isRaining = false;
+            cloudFade.SetFadeOut();
 
-        rainPart.Pause();
-        cloudFade.SetFadeOut();
-        var emission = rainPart.emission;
-        emission.rateOverTime = 0;
-
-        AmbientCoast.PlayCoastSound();
+            AmbientCoast.PlayCoastSound();
     }
 }

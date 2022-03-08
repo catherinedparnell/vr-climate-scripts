@@ -44,10 +44,8 @@ public class BuoyancyFinal : MonoBehaviour {
         if(isInWater) {
             // apply upward force
             float upForce = RandomizeUpwardForce(CurrentUpwardForce);
-            print(upForce); 
             Vector3 force = transform.up * upForce;
             this.GetComponent<Rigidbody>().AddRelativeForce(force, ForceMode.Acceleration);
-            Debug.Log("Upward force: " + force+" @"+Time.time);
         }
     }
 }

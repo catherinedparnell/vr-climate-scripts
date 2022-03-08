@@ -9,7 +9,7 @@ public class CloudFadeInOut : MonoBehaviour
     private Color32 cloudColor;
     private float cloudColorAlpha;
     private float upperAlphaBound = 130;
-    private float lowerAlphaBound = 5;
+    private float lowerAlphaBound = 0;
 
     public bool fadeCloudsIn = false;
     public bool fadeCloudsOut = false;

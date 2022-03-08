@@ -11,7 +11,7 @@ public class SkyboxChangeManager : MonoBehaviour
     private float start;
     public bool raining = false;
     private bool done = false;
-    public ParticleSystem rain;
+    public WeatherController WeatherController;
 
     // Start is called before the first frame update
     void Start()
@@ -33,14 +33,14 @@ public class SkyboxChangeManager : MonoBehaviour
         }
     }
     public void RainCheck(){
-        if(rain.isPlaying & !raining)
+        if(WeatherController.isRaining & !raining)
         {
             raining = true;
             done = false;
             start = Time.time;
             print("starting lerp to raining skybox");
         }
-        else if (!rain.isPlaying & raining)
+        else if (!WeatherController.isRaining & raining)
         {
             raining = false;
             done = false;

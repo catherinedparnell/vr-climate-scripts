@@ -1,6 +1,6 @@
 public class ServerConfig
 {
-    private static string SERVER_URL = "https://vr-climate-api.herokuapp.com";
+    private static string SERVER_URL = "https://vr-climate-api.herokuapp.com/?";
     private static string SERVER_ENDPOINT = "/decade?";
     private static string YEAR = "year";
     private static string SCENARIO = "scenario";

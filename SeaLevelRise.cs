@@ -31,6 +31,7 @@ public class SeaLevelRise : MonoBehaviour
     {
         if (Request.seaRetrieved)
         {
+            Debug.Log("got sea data");
             data = Request.data;
             
             // sets the start and end position for lerp before it starts
@@ -64,7 +65,6 @@ public class SeaLevelRise : MonoBehaviour
     // lerp animation for sea level
     private void LerpSea()
     {
-        Debug.Log("updating sea level");
         // move sea plane
         if (lerpFraction < 0.99)
         {

@@ -15,7 +15,7 @@ public class WhalePuff : MonoBehaviour
     private IEnumerator WhaleDoesThing() {
         yield return new WaitForSeconds(.5f);
         puff.Play();
-        yield return new WaitForSeconds(2.5f);
+        yield return new WaitForSeconds(2.25f);
         puff.Stop();
     }
 }

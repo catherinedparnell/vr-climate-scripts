@@ -14,21 +14,23 @@ public class Request : MonoBehaviour
     public int chosenYear;
     public int chosenScenario;
 
-    void Start() {
-        StartSimulation(2100, 2);
-    }
+    // void Start() {
+    //     StartSimulation(2099, 2);
+    // }
 
 
     public void StartSimulation(int year, int scenario)
     {
+        Debug.Log("STARTING SIMULATION "+year+" "+scenario);
         chosenYear = year;
         chosenScenario = scenario;
-        GenerateRequest(year - 10, scenario);
+        GenerateRequest(year, scenario);
     }
 
     public void GenerateRequest (int year, int scenario)
     {
-        formattedURL = ServerConfig.DECADE_URL + ServerConfig.QUERY_YEAR + year.ToString() + "&" +ServerConfig.QUERY_SCENARIO + scenario.ToString();
+        formattedURL = ServerConfig.URL + ServerConfig.QUERY_YEAR + year.ToString() + "&" +ServerConfig.QUERY_SCENARIO + scenario.ToString();
+        Debug.Log(formattedURL);
         StartCoroutine(ProcessRequest(formattedURL));
     }
 

@@ -24,7 +24,7 @@ public class UIBuilder : MonoBehaviour
     {
         
         DebugUIBuilder.instance.AddLabel("Future Timeline");
-        sliderPrefab = DebugUIBuilder.instance.AddSlider("Time", 2030, 2100, SliderPressed, true);
+        sliderPrefab = DebugUIBuilder.instance.AddSlider("Time", 2022, 2099, SliderPressed, true);
         var textElementsInSlider = sliderPrefab.GetComponentsInChildren<Text>();
         Assert.AreEqual(textElementsInSlider.Length, 2, "Slider prefab format requires 2 text components (label + value)");
         sliderText = textElementsInSlider[1];
@@ -95,6 +95,7 @@ public class UIBuilder : MonoBehaviour
             Rain.SetActive(false);
         }
         Request.StartSimulation(sliderValue, radioValue); 
+        DebugUIBuilder.instance.Hide();
         Debug.Log("Button pressed with "+sliderValue+" and "+radioValue);
     }
 }
