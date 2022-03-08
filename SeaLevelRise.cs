@@ -20,6 +20,7 @@ public class SeaLevelRise : MonoBehaviour
     private Vector3 endPos;
     private float lerpFraction = 0;
     private bool updatingWaterLevel = false;
+    public bool goingUp = false;
     public int RISE_FACTOR = 5; 
     // should be the same value you see in position y value
     public int DEFAULT_SEA_LEVEL = 10;
@@ -53,6 +54,10 @@ public class SeaLevelRise : MonoBehaviour
         startPos = water.transform.position;
         // using default sea level to calculate y for where sea level rises every time should rise and lower when appropriate
         endPos = new Vector3(water.transform.position.x, DEFAULT_SEA_LEVEL+(RISE_FACTOR*data.SeaLevel), water.transform.position.z);
+        if(endPos.y > startPos.y)
+        {
+            goingUp = true;
+        }
     }
     
     // lerp animation for sea level
@@ -69,6 +74,7 @@ public class SeaLevelRise : MonoBehaviour
         {
             // no longer updating the water level
             updatingWaterLevel = false;
+            goingUp = false;
 
             // reset lerpFraction for next sea level update
             lerpFraction = 0;
